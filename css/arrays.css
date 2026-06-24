@@ -1,0 +1,109 @@
+body{
+    background:#f4f7fb;
+}
+
+.visual-box,
+.log-box{
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:15px;
+
+    box-shadow:0 0 15px rgba(0,0,0,.08);
+}
+
+.array-container{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+    min-height:250px;
+
+    margin-top:30px;
+}
+
+.array-item{
+
+    width:70px;
+
+    height:70px;
+
+    background:#0d6efd;
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:12px;
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    transition:.5s;
+}
+
+.highlight{
+
+    background:#ffc107 !important;
+
+    color:black;
+}
+
+.found{
+
+    background:#198754 !important;
+}
+
+.delete{
+
+    animation:deleteAnim .6s forwards;
+}
+
+.insert{
+
+    animation:insertAnim .6s;
+}
+
+@keyframes insertAnim{
+
+    from{
+        opacity:0;
+        transform:translateY(-30px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes deleteAnim{
+
+    to{
+        opacity:0;
+        transform:scale(.2);
+    }
+}
+
+.step{
+
+    background:#eef4ff;
+
+    padding:10px;
+
+    border-radius:8px;
+
+    margin-bottom:10px;
+}
