@@ -1,0 +1,67 @@
+ body {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            min-height: 100vh;
+            color: white;
+            font-family: Tahoma, sans-serif;
+           overflow: hidden;
+        }
+
+        .hero {
+            padding: 100px 0;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .hero p {
+            color: #cbd5e1;
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .algorithm-card {
+            background: rgba(255,255,255,.08);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            transition: .4s;
+            border: 1px solid rgba(255,255,255,.1);
+            height: 100%;
+        }
+
+        .algorithm-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,.3);
+        }
+
+        .icon-box {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+            font-size: 35px;
+        }
+
+        .btn-enter {
+            border-radius: 50px;
+            padding: 10px 30px;
+        }
+
+        footer {
+            color: #94a3b8;
+            margin-top: 100px;
+        }
+
+        .feature {
+            background: rgba(255,255,255,.05);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        .container{
+           margin-top: 10em;
+        }
