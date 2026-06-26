@@ -3,91 +3,75 @@ AOS.init();
 const visualArea = document.getElementById("visualArea");
 const logArea = document.getElementById("logArea");
 
-function addLog(text){
+function addLog(text) {
+  const div = document.createElement("div");
 
-    const div=document.createElement("div");
+  div.className = "step-item";
+  div.innerHTML = text;
 
-    div.className="step-item";
-    div.innerHTML=text;
-
-    logArea.appendChild(div);
+  logArea.appendChild(div);
 }
 
-function resetPage(){
-
-    visualArea.innerHTML="";
-    logArea.innerHTML="";
+function resetPage() {
+  visualArea.innerHTML = "";
+  logArea.innerHTML = "";
 }
 
-function runAlgorithm(){
+function runAlgorithm() {
+  resetPage();
 
-    resetPage();
+  const type = document.getElementById("algorithmSelect").value;
 
-    const type=
-        document.getElementById("algorithmSelect").value;
+  if (type === "fib") {
+    runFibonacci();
+  }
 
-    if(type==="fib"){
-        runFibonacci();
-    }
+  if (type === "gcd") {
+    runGCD();
+  }
 
-    if(type==="gcd"){
-        runGCD();
-    }
-
-    if(type==="hanoi"){
-        runHanoi();
-    }
+  if (type === "hanoi") {
+    runHanoi();
+  }
 }
 
-function runFibonacci(){
+function runFibonacci() {
+  let n = parseInt(document.getElementById("input1").value);
 
-    let n = parseInt(
-        document.getElementById("input1").value
-    );
+  if (isNaN(n)) n = 6;
 
-    if(isNaN(n)) n = 6;
+  let sequence = [];
 
-    let sequence = [];
+  function fib(num) {
+    if (num <= 1) return num;
 
-    function fib(num){
+    return fib(num - 1) + fib(num - 2);
+  }
 
-        if(num <= 1) return num;
+  addLog("بدء تنفيذ خوارزمية فيبوناتشي");
 
-        return fib(num-1) + fib(num-2);
-    }
+  for (let i = 0; i <= n; i++) {
+    setTimeout(() => {
+      let value = fib(i);
 
-    addLog("بدء تنفيذ خوارزمية فيبوناتشي");
+      sequence.push(value);
 
-    for(let i=0;i<=n;i++){
+      let node = document.createElement("div");
 
-        setTimeout(()=>{
+      node.className = "fib-node";
 
-            let value = fib(i);
+      node.innerHTML = `Fib(${i}) = ${value}`;
 
-            sequence.push(value);
+      visualArea.appendChild(node);
 
-            let node = document.createElement("div");
+      addLog(`تم حساب Fib(${i}) = ${value}`);
 
-            node.className = "fib-node";
+      if (i === n) {
+        let result = document.createElement("div");
 
-            node.innerHTML =
-            `Fib(${i}) = ${value}`;
+        result.className = "alert alert-success mt-4";
 
-            visualArea.appendChild(node);
-
-            addLog(
-                `تم حساب Fib(${i}) = ${value}`
-            );
-
-            if(i === n){
-
-                let result = document.createElement("div");
-
-                result.className =
-                "alert alert-success mt-4";
-
-                result.innerHTML =
-                `
+        result.innerHTML = `
                 <h5>
                 الناتج النهائي
                 </h5>
@@ -97,92 +81,78 @@ function runFibonacci(){
                 </strong>
                 `;
 
-                visualArea.appendChild(result);
+        visualArea.appendChild(result);
 
-                addLog(
-                    "اكتمل إنشاء سلسلة فيبوناتشي"
-                );
-            }
-
-        }, i * 700);
-
-    }
-
+        addLog("اكتمل إنشاء سلسلة فيبوناتشي");
+      }
+    }, i * 700);
+  }
 }
-function runGCD(){
+function runGCD() {
+  let a = parseInt(input1.value);
+  let b = parseInt(input2.value);
 
-    let a = parseInt(input1.value);
-    let b = parseInt(input2.value);
+  if (isNaN(a)) a = 252;
+  if (isNaN(b)) b = 105;
 
-    if(isNaN(a)) a = 252;
-    if(isNaN(b)) b = 105;
+  // اجعل a هو العدد الأكبر
+  if (a < b) {
+    [a, b] = [b, a];
+  }
 
-    let step = 0;
+  let step = 0;
 
-    while(b !== 0){
+  while (b !== 0) {
+    let remainder = a % b;
 
-        let remainder = a % b;
+    const currentA = a;
+    const currentB = b;
+    const currentR = remainder;
 
-        const currentA = a;
-        const currentB = b;
-        const currentR = remainder;
+    setTimeout(() => {
+      let box = document.createElement("div");
 
-        setTimeout(()=>{
+      box.className = "gcd-box";
 
-            let box =
-            document.createElement("div");
-
-            box.className="gcd-box";
-
-            box.innerHTML=
-            `
+      box.innerHTML = `
             <div class="equation">
                 ${currentA} % ${currentB} = ${currentR}
             </div>
             `;
 
-            visualArea.appendChild(box);
+      visualArea.appendChild(box);
+    }, step * 1000);
 
-        }, step * 1000);
-
-        addLog(
-            `
+    addLog(
+      `
             <span dir="ltr">
             ${currentA} % ${currentB} = ${currentR}
             </span>
-            `
-        );
+            `,
+    );
 
-        a = b;
-        b = remainder;
+    a = b;
+    b = remainder;
 
-        step++;
-    }
+    step++;
+  }
 
-    setTimeout(()=>{
-
-        addLog(
-        `
+  setTimeout(() => {
+    addLog(
+      `
         <strong>
         GCD = ${a}
         </strong>
-        `
-        );
-
-    }, step * 1000);
-}
-function runHanoi(){
-
-    let disks = parseInt(
-        document.getElementById("input1").value
+        `,
     );
+  }, step * 1000);
+}
+function runHanoi() {
+  let disks = parseInt(document.getElementById("input1").value);
 
-    if(isNaN(disks))
-        disks = 4;
+  if (isNaN(disks)) disks = 4;
 
-    visualArea.innerHTML =
-
-    `
+  visualArea.innerHTML = `
     <div class="tower-container">
 
         <div class="tower" id="towerA"></div>
@@ -199,100 +169,71 @@ function runHanoi(){
         </div>
     `;
 
-    const towers = {
-        A: document.getElementById("towerA"),
-        B: document.getElementById("towerB"),
-        C: document.getElementById("towerC")
-    };
+  const towers = {
+    A: document.getElementById("towerA"),
+    B: document.getElementById("towerB"),
+    C: document.getElementById("towerC"),
+  };
 
-    let state = {
-        A: [],
-        B: [],
-        C: []
-    };
+  let state = {
+    A: [],
+    B: [],
+    C: [],
+  };
 
-    for(let i=disks;i>=1;i--){
+  for (let i = disks; i >= 1; i--) {
+    let disk = document.createElement("div");
 
-        let disk = document.createElement("div");
+    disk.className = "disk";
 
-        disk.className = "disk";
+    disk.style.width = 40 + i * 25 + "px";
 
-        disk.style.width =
-        (40 + i*25) + "px";
+    disk.style.background = `hsl(${i * 60},70%,50%)`;
 
-        disk.style.background =
-        `hsl(${i*60},70%,50%)`;
+    disk.innerHTML = i;
 
-        disk.innerHTML = i;
+    towers.A.appendChild(disk);
 
-        towers.A.appendChild(disk);
+    state.A.push(disk);
+  }
 
-        state.A.push(disk);
+  let moves = [];
+
+  function hanoi(n, from, to, aux) {
+    if (n === 1) {
+      moves.push({
+        from,
+        to,
+      });
+
+      return;
     }
 
-    let moves = [];
+    hanoi(n - 1, from, aux, to);
 
-    function hanoi(n,from,to,aux){
-
-        if(n===1){
-
-            moves.push({
-                from,
-                to
-            });
-
-            return;
-        }
-
-        hanoi(
-            n-1,
-            from,
-            aux,
-            to
-        );
-
-        moves.push({
-            from,
-            to
-        });
-
-        hanoi(
-            n-1,
-            aux,
-            to,
-            from
-        );
-    }
-
-    hanoi(
-        disks,
-        "A",
-        "C",
-        "B"
-    );
-
-    moves.forEach((move,index)=>{
-
-        setTimeout(()=>{
-
-            let disk =
-            state[move.from].pop();
-
-            state[move.to].push(disk);
-
-            towers[move.to]
-            .appendChild(disk);
-
-            addLog(
-
-                `نقل القرص ${disk.innerHTML}
-                من البرج ${move.from}
-                إلى البرج ${move.to}`
-
-            );
-
-        },index*1200);
-
+    moves.push({
+      from,
+      to,
     });
 
+    hanoi(n - 1, aux, to, from);
+  }
+
+  hanoi(disks, "A", "C", "B");
+
+  moves.forEach((move, index) => {
+    setTimeout(() => {
+      let disk = state[move.from].pop();
+
+      state[move.to].push(disk);
+
+      towers[move.to].appendChild(disk);
+
+      addLog(
+        `نقل القرص ${disk.innerHTML}
+                من البرج ${move.from}
+                إلى البرج ${move.to}`,
+      );
+    }, index * 1200);
+  });
 }

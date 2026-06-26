@@ -3,7 +3,7 @@
             min-height: 100vh;
             color: white;
             font-family: Tahoma, sans-serif;
-           height : 100%;
+            padding-bottom: 20px;
         }
 
         .hero {

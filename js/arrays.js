@@ -49,8 +49,14 @@ function resetArray(){
 
 function insertFirst(){
 
+
     let value=
     parseInt(valueInput.value);
+
+        if (isNaN(value)) {
+    log("الرجاء إدخال قيمة صحيحة.");
+    return;
+}
 
     if(isNaN(value)) return;
 
@@ -66,14 +72,28 @@ function insertFirst(){
 
 function insertMiddle(){
 
+
+
     let value=
     parseInt(valueInput.value);
 
     let index=
     parseInt(indexInput.value);
 
-    if(isNaN(value)||isNaN(index))
-        return;
+    if (isNaN(value)) {
+    log("الرجاء إدخال قيمة صحيحة.");
+    return;
+}
+
+if (isNaN(index)) {
+    log("الرجاء إدخال فهرس.");
+    return;
+}
+
+if (index < 0 || index > arr.length) {
+    log("الفهرس خارج حدود المصفوفة.");
+    return;
+}
 
     arr.splice(index,0,value);
 
@@ -90,10 +110,16 @@ function insertMiddle(){
 
 function insertLast(){
 
+
+
     let value=
     parseInt(valueInput.value);
 
-    if(isNaN(value)) return;
+        if (isNaN(value)) {
+    log("الرجاء إدخال قيمة صحيحة.");
+    return;
+}
+
 
     arr.push(value);
 
@@ -107,6 +133,10 @@ function insertLast(){
 
 function deleteFirst(){
 
+    if (arr.length === 0) {
+    log("لا يمكن الحذف، المصفوفة فارغة.");
+    return;
+}
     if(arr.length===0) return;
 
     arr.shift();
@@ -118,10 +148,27 @@ function deleteFirst(){
 
 function deleteMiddle(){
 
+
+
+
+
     let index=
     parseInt(indexInput.value);
 
-    if(isNaN(index)) return;
+    if (index < 0 || index >= arr.length) {
+    log("الفهرس خارج حدود المصفوفة.");
+    return;
+}
+
+    if (arr.length === 0) {
+    log("لا يمكن الحذف، المصفوفة فارغة.");
+    return;
+}
+
+if (isNaN(index)) {
+    log("الرجاء إدخال فهرس.");
+    return;
+}
 
     arr.splice(index,1);
 
@@ -135,6 +182,11 @@ function deleteMiddle(){
 
 function deleteLast(){
 
+    if (arr.length === 0) {
+    log("لا يمكن الحذف، المصفوفة فارغة.");
+    return;
+}
+
     arr.pop();
 
     render();
@@ -144,11 +196,20 @@ function deleteLast(){
 
 async function linearSearch(){
 
+
+
     let value=
     parseInt(valueInput.value);
 
-    if(isNaN(value)) return;
+    if (arr.length === 0) {
+    log("لا يمكن البحث، المصفوفة فارغة.");
+    return;
+}
 
+if (isNaN(value)) {
+    log("الرجاء إدخال قيمة للبحث.");
+    return;
+}
     let items=
     document.querySelectorAll(".array-item");
 
@@ -191,6 +252,8 @@ async function linearSearch(){
 
 async function binarySearch(){
 
+
+
     arr.sort((a,b)=>a-b);
 
     render();
@@ -201,6 +264,16 @@ async function binarySearch(){
     let low=0;
 
     let high=arr.length-1;
+
+        if (arr.length === 0) {
+    log("لا يمكن البحث، المصفوفة فارغة.");
+    return;
+}
+
+if (isNaN(value)) {
+    log("الرجاء إدخال قيمة للبحث.");
+    return;
+}
 
     while(low<=high){
 
