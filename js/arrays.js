@@ -1,334 +1,284 @@
-let arr = [10,20,30,40];
+let arr = [10, 20, 30, 40];
 
-const container =
-document.getElementById("arrayContainer");
+const container = document.getElementById("arrayContainer");
 
-const logArea =
-document.getElementById("logArea");
+const logArea = document.getElementById("logArea");
 
 render();
 
-function render(){
+function render() {
+  container.innerHTML = "";
 
-    container.innerHTML="";
+  arr.forEach((item, index) => {
+    let div = document.createElement("div");
 
-    arr.forEach((item,index)=>{
+    div.className = "array-item";
 
-        let div=document.createElement("div");
+    div.innerHTML = item;
 
-        div.className="array-item";
+    div.dataset.index = index;
 
-        div.innerHTML=item;
-
-        div.dataset.index=index;
-
-        container.appendChild(div);
-
-    });
+    container.appendChild(div);
+  });
 }
 
-function log(text){
-
-    let div=document.createElement("div");
-
-    div.className="step";
-
-    div.innerHTML=text;
-
-    logArea.prepend(div);
-}
-
-function resetArray(){
-
-    arr=[10,20,30,40];
-
-    logArea.innerHTML="";
-
-    render();
-}
-
-function insertFirst(){
-
-
-    let value=
-    parseInt(valueInput.value);
-
-        if (isNaN(value)) {
-    log("الرجاء إدخال قيمة صحيحة.");
-    return;
-}
-
-    if(isNaN(value)) return;
-
-    arr.unshift(value);
-
-    render();
-
-    container.firstChild
-    .classList.add("insert");
-
-    log("تمت إضافة العنصر في بداية المصفوفة");
-}
-
-function insertMiddle(){
-
-
-
-    let value=
-    parseInt(valueInput.value);
-
-    let index=
-    parseInt(indexInput.value);
-
-    if (isNaN(value)) {
-    log("الرجاء إدخال قيمة صحيحة.");
-    return;
-}
-
-if (isNaN(index)) {
-    log("الرجاء إدخال فهرس.");
-    return;
-}
-
-if (index < 0 || index > arr.length) {
-    log("الفهرس خارج حدود المصفوفة.");
-    return;
-}
-
-    arr.splice(index,0,value);
-
-    render();
-
-    container.children[index]
-    .classList.add("insert");
-
-    log(
-        "تمت إضافة العنصر عند الفهرس "
-        +index
-    );
-}
-
-function insertLast(){
-
-
-
-    let value=
-    parseInt(valueInput.value);
-
-        if (isNaN(value)) {
-    log("الرجاء إدخال قيمة صحيحة.");
-    return;
-}
-
-
-    arr.push(value);
-
-    render();
-
-    container.lastChild
-    .classList.add("insert");
-
-    log("تمت إضافة العنصر في نهاية المصفوفة");
-}
-
-function deleteFirst(){
-
-    if (arr.length === 0) {
-    log("لا يمكن الحذف، المصفوفة فارغة.");
-    return;
-}
-    if(arr.length===0) return;
-
-    arr.shift();
-
-    render();
-
-    log("تم حذف أول عنصر");
-}
-
-function deleteMiddle(){
-
-
-
-
-
-    let index=
-    parseInt(indexInput.value);
-
-    if (index < 0 || index >= arr.length) {
-    log("الفهرس خارج حدود المصفوفة.");
-    return;
-}
-
-    if (arr.length === 0) {
-    log("لا يمكن الحذف، المصفوفة فارغة.");
-    return;
-}
-
-if (isNaN(index)) {
-    log("الرجاء إدخال فهرس.");
-    return;
-}
-
-    arr.splice(index,1);
-
-    render();
-
-    log(
-        "تم حذف العنصر عند الفهرس "
-        +index
-    );
-}
-
-function deleteLast(){
-
-    if (arr.length === 0) {
-    log("لا يمكن الحذف، المصفوفة فارغة.");
-    return;
-}
-
-    arr.pop();
-
-    render();
-
-    log("تم حذف آخر عنصر");
-}
-
-async function linearSearch(){
-
-
-
-    let value=
-    parseInt(valueInput.value);
-
-    if (arr.length === 0) {
-    log("لا يمكن البحث، المصفوفة فارغة.");
-    return;
-}
-
-if (isNaN(value)) {
-    log("الرجاء إدخال قيمة للبحث.");
-    return;
-}
-    let items=
-    document.querySelectorAll(".array-item");
-
-    for(let i=0;i<arr.length;i++){
-
-        items[i].classList.add("highlight");
-
-        log(
-            "فحص العنصر "
-            +arr[i]
-        );
-
-        await sleep(800);
-
-        if(arr[i]===value){
-
-            items[i].classList.remove(
-                "highlight"
-            );
-
-            items[i].classList.add(
-                "found"
-            );
-
-            log(
-                "تم العثور على العنصر عند الفهرس "
-                +i
-            );
-
-            return;
-        }
-
-        items[i].classList.remove(
-            "highlight"
-        );
+function log(text, type) {
+  let div = document.createElement("div");
+
+  div.className = "step";
+
+    if(type === "error"){
+    div.style.background = "#ff4d4d";
+    }
+    else if(type === "success"){
+    div.style.background = "#28a745";
+    }
+    else if(type === "prosses"){
+    div.style.background = "#007bff";
     }
 
-    log("العنصر غير موجود");
+  div.innerHTML = text;
+
+  logArea.prepend(div);
 }
 
-async function binarySearch(){
+function resetArray() {
+  arr = [10, 20, 30, 40];
 
+  logArea.innerHTML = "";
 
+  render();
+}
 
-    arr.sort((a,b)=>a-b);
+function insertFirst() {
+  let value = parseInt(valueInput.value);
 
-    render();
-
-    let value=
-    parseInt(valueInput.value);
-
-    let low=0;
-
-    let high=arr.length-1;
-
-        if (arr.length === 0) {
-    log("لا يمكن البحث، المصفوفة فارغة.");
+  if (isNaN(value)) {
+    log("الرجاء إدخال قيمة صحيحة.", "error");
     return;
+  }
+
+  //   arr.unshift(value);
+
+  for (let i = arr.length; i > 0; --i) {
+    arr[i] = arr[i - 1];
+  }
+  arr[0] = value;
+
+  render();
+
+  container.firstChild.classList.add("insert");
+
+  log("تمت إضافة العنصر في بداية المصفوفة", "success");
 }
 
-if (isNaN(value)) {
-    log("الرجاء إدخال قيمة للبحث.");
+function insertMiddle() {
+  let value = parseInt(valueInput.value);
+
+  let index = parseInt(indexInput.value);
+
+  if (isNaN(value)) {
+    log("الرجاء إدخال قيمة صحيحة." , "error");
     return;
+  }
+
+  if (isNaN(index)) {
+    log("الرجاء إدخال فهرس." , "error");
+    return;
+  }
+
+  if (index < 0 || index > arr.length) {
+    log("الفهرس خارج حدود المصفوفة." , "error");
+    return;
+  }
+
+  //   arr.splice(index, 0, value);
+
+  for (let i = arr.length; i > index; --i) {
+    arr[i] = arr[i - 1];
+  }
+
+  arr[index] = value;
+
+  render();
+
+  container.children[index].classList.add("insert");
+
+  log("تمت إضافة العنصر عند الفهرس " + index , "success");
 }
 
-    while(low<=high){
+function insertLast() {
+  let value = parseInt(valueInput.value);
 
-        let items=
-        document.querySelectorAll(".array-item");
+  if (isNaN(value)) {
+    log("الرجاء إدخال قيمة صحيحة." , "error");
+    return;
+  }
 
-        let mid=
-        Math.floor(
-            (low+high)/2
-        );
+  //   arr.push(value);
 
-        items[mid]
-        .classList.add("highlight");
+  arr[arr.length] = value;
 
-        log(
-            "فحص العنصر "
-            +arr[mid]
-        );
+  render();
 
-        await sleep(1000);
+  container.lastChild.classList.add("insert");
 
-        if(arr[mid]===value){
+  log("تمت إضافة العنصر في نهاية المصفوفة" , "success");
+}
 
-            items[mid]
-            .classList.remove("highlight");
+function deleteFirst() {
+  if (arr.length === 0) {
+    log("لا يمكن الحذف، المصفوفة فارغة." , "error");
+    return;
+  }
 
-            items[mid]
-            .classList.add("found");
+  //   arr.shift();
 
-            log(
-                "تم العثور على العنصر"
-            );
+  for (let i = 0; i < arr.length - 1; ++i) {
+    arr[i] = arr[i + 1];
+  }
+  arr.length--;
+  render();
 
-            return;
-        }
+  log("تم حذف أول عنصر" , "success");
+}
 
-        if(arr[mid]<value){
+function deleteMiddle() {
+  let index = parseInt(indexInput.value);
 
-            low=mid+1;
+  if (index < 0 || index >= arr.length) {
+    log("الفهرس خارج حدود المصفوفة." , "error");
+    return;
+  }
 
-        }else{
+  if (arr.length === 0) {
+    log(" المصفوفة فارغة." , "error");
+    return;
+  }
 
-            high=mid-1;
-        }
+  if (isNaN(index)) {
+    log("الرجاء إدخال فهرس." , "error");
+    return;
+  }
 
-        items[mid]
-        .classList.remove("highlight");
+  //   arr.splice(index, 1);
+
+  for (let i = index; i < arr.length - 1; ++i) {
+    arr[i] = arr[i + 1];
+  }
+  arr.length--;
+
+  render();
+
+  log("تم حذف العنصر عند الفهرس " + index , "success");
+}
+
+function deleteLast() {
+  if (arr.length === 0) {
+    log("لا يمكن الحذف، المصفوفة فارغة." , "error");
+    return;
+  }
+
+  //   arr.pop();
+
+  arr.length--;
+  render();
+
+  log("تم حذف آخر عنصر" , "success");
+}
+
+async function linearSearch() {
+  let value = parseInt(valueInput.value);
+
+  if (arr.length === 0) {
+    log("لا يمكن البحث، المصفوفة فارغة." , "error");
+    return;
+  }
+
+  if (isNaN(value)) {
+    log("الرجاء إدخال قيمة للبحث." , "error");
+    return;
+  }
+  
+  let items = document.querySelectorAll(".array-item");
+
+  for (let i = 0; i < arr.length; i++) {
+    items[i].classList.add("highlight");
+
+    log("فحص العنصر " + arr[i] , "prosses");
+
+    await sleep(800);
+
+    if (arr[i] === value) {
+      items[i].classList.remove("highlight");
+
+      items[i].classList.add("found");
+
+      log(`تم العثور على العنصر ${value} عند الفهرس ${i}` , "success");
+
+      return;
     }
 
-    log("العنصر غير موجود");
+    items[i].classList.remove("highlight");
+  }
+
+  log("العنصر غير موجود" , "error");
 }
 
-function sleep(ms){
+async function binarySearch() {
+  arr.sort((a, b) => a - b);
 
-    return new Promise(
-        resolve=>setTimeout(resolve,ms)
-    );
+  render();
+
+  let value = parseInt(valueInput.value);
+
+  let low = 0;
+
+  let high = arr.length - 1;
+
+  if (arr.length === 0) {
+    log("لا يمكن البحث، المصفوفة فارغة." , "error");
+    return;
+  }
+
+  if (isNaN(value)) {
+    log("الرجاء إدخال قيمة للبحث." , "error");
+    return;
+  }
+
+  while (low <= high) {
+    let items = document.querySelectorAll(".array-item");
+
+    let mid = Math.floor((low + high) / 2);
+
+    items[mid].classList.add("highlight");
+
+    log("فحص العنصر " + arr[mid] , "prosses");
+
+    await sleep(1000);
+
+    if (arr[mid] === value) {
+      items[mid].classList.remove("highlight");
+
+      items[mid].classList.add("found");
+
+      log("تم العثور على العنصر" , "success");
+
+      return;
+    }
+
+    if (arr[mid] < value) {
+      low = mid + 1;
+    } else {
+      high = mid - 1;
+    }
+
+    items[mid].classList.remove("highlight");
+  }
+
+  log("العنصر غير موجود" , "error");
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

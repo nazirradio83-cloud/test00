@@ -3,10 +3,18 @@ AOS.init();
 const visualArea = document.getElementById("visualArea");
 const logArea = document.getElementById("logArea");
 
-function addLog(text) {
+function addLog(text, type) {
   const div = document.createElement("div");
 
   div.className = "step-item";
+
+  if (type === "error") {
+    div.style.background = "#ff4d4d";
+  } else if (type === "success") {
+    div.style.background = "#28a745";
+  } else if (type === "prosses") {
+    div.style.background = "#007bff";
+  }
   div.innerHTML = text;
 
   logArea.appendChild(div);
@@ -38,17 +46,22 @@ function runAlgorithm() {
 function runFibonacci() {
   let n = parseInt(document.getElementById("input1").value);
 
-  if (isNaN(n)) n = 6;
+  if (isNaN(n)) {
+    addLog("الرجاء إدخال رقم صحيح.", "error");
+    return;
+  }
 
   let sequence = [];
 
   function fib(num) {
-    if (num <= 1) return num;
+    if (num === 0 || num === 1) {
+      return 1;
+    }
 
     return fib(num - 1) + fib(num - 2);
   }
 
-  addLog("بدء تنفيذ خوارزمية فيبوناتشي");
+  addLog("بدء تنفيذ خوارزمية فيبوناتشي", "success");
 
   for (let i = 0; i <= n; i++) {
     setTimeout(() => {
@@ -59,12 +72,11 @@ function runFibonacci() {
       let node = document.createElement("div");
 
       node.className = "fib-node";
-
       node.innerHTML = `Fib(${i}) = ${value}`;
 
       visualArea.appendChild(node);
 
-      addLog(`تم حساب Fib(${i}) = ${value}`);
+      addLog(`تم حساب Fib(${i}) = ${value}`, "prosses");
 
       if (i === n) {
         let result = document.createElement("div");
@@ -72,18 +84,13 @@ function runFibonacci() {
         result.className = "alert alert-success mt-4";
 
         result.innerHTML = `
-                <h5>
-                الناتج النهائي
-                </h5>
-
-                <strong>
-                ${sequence.join(" , ")}
-                </strong>
-                `;
+        <h5>الناتج النهائي</h5>
+        <strong>${sequence.join(" , ")}</strong>
+        `;
 
         visualArea.appendChild(result);
 
-        addLog("اكتمل إنشاء سلسلة فيبوناتشي");
+        addLog("اكتمل إنشاء سلسلة فيبوناتشي", "success");
       }
     }, i * 700);
   }
@@ -129,6 +136,7 @@ function runGCD() {
             ${currentA} % ${currentB} = ${currentR}
             </span>
             `,
+      "prosses",
     );
 
     a = b;
@@ -144,6 +152,7 @@ function runGCD() {
         GCD = ${a}
         </strong>
         `,
+      "prosses",
     );
   }, step * 1000);
 }
@@ -153,21 +162,18 @@ function runHanoi() {
   if (isNaN(disks)) disks = 4;
 
   visualArea.innerHTML = `
-    <div class="tower-container">
+  <div class="tower-container">
+      <div class="tower" id="towerA"></div>
+      <div class="tower" id="towerB"></div>
+      <div class="tower" id="towerC"></div>
+  </div>
 
-        <div class="tower" id="towerA"></div>
-
-        <div class="tower" id="towerB"></div>
-
-        <div class="tower" id="towerC"></div>
-
-    </div>
-    <div class="text-container mt-3">
-        <div>A</div>
-        <div>B</div>
-        <div>C</div>
-        </div>
-    `;
+  <div class="text-container mt-3">
+      <div>A</div>
+      <div>B</div>
+      <div>C</div>
+  </div>
+  `;
 
   const towers = {
     A: document.getElementById("towerA"),
@@ -199,27 +205,27 @@ function runHanoi() {
 
   let moves = [];
 
-  function hanoi(n, from, to, aux) {
+  function hanoiTowers(n, s, d, a) {
     if (n === 1) {
       moves.push({
-        from,
-        to,
+        disk: 1,
+        from: s,
+        to: d,
+      });
+    } else {
+      hanoiTowers(n - 1, s, a, d);
+
+      moves.push({
+        disk: n,
+        from: s,
+        to: d,
       });
 
-      return;
+      hanoiTowers(n - 1, a, d, s);
     }
-
-    hanoi(n - 1, from, aux, to);
-
-    moves.push({
-      from,
-      to,
-    });
-
-    hanoi(n - 1, aux, to, from);
   }
 
-  hanoi(disks, "A", "C", "B");
+  hanoiTowers(disks, "A", "C", "B");
 
   moves.forEach((move, index) => {
     setTimeout(() => {
@@ -230,9 +236,8 @@ function runHanoi() {
       towers[move.to].appendChild(disk);
 
       addLog(
-        `نقل القرص ${disk.innerHTML}
-                من البرج ${move.from}
-                إلى البرج ${move.to}`,
+        `نقل القرص ${move.disk} من البرج ${move.from} إلى البرج ${move.to}`,
+        "prosses",
       );
     }, index * 1200);
   });
