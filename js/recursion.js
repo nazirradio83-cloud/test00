@@ -168,7 +168,7 @@ function runHanoi() {
       <div class="tower" id="towerC"></div>
   </div>
 
-  <div class="text-container mt-3">
+  <div class="text-container text-desc mt-3">
       <div>A</div>
       <div>B</div>
       <div>C</div>
